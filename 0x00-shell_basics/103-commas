@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -ap | sed -e 's/\([^\/]\)$/&/' -e 's/\//&/g' | sort -d -f | tr '\n' ',' ' '
+ls -Ap | tr '\n' ',' | sed 's/,$/\n/'
