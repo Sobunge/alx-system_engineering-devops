@@ -1,2 +1,2 @@
 #!/bin/bash
-alias 11-lists = "ls -la && ls -la .. && ls -la /boot"
+ls -la .. /boot
