@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -ap | sed 's/,$/, /' | tr '\n' ',' | sed 's/,$/\n/' | | sed 's/,/, /g' 
+ls -ap | sed 's/,$/, /' | tr '\n' ',' | sed 's/,$/\n/' | sed 's/,/, /g' 
