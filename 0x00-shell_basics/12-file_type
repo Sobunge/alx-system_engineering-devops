@@ -1,2 +1,2 @@
 #!/bin/bash
-echo $(file "$file_path")
+echo $(file "/tmp/iamafile")
