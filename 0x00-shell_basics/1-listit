@@ -1,2 +1,4 @@
 #!/bin/bash
-echo $(ls -1)
+for item in $(ls); do
+       	echo "$item" 
+done
