@@ -1,1 +1,1 @@
-0 string SCHOOL School
+file -m $(file -C -m $(0 string SCHOOL School)) *
