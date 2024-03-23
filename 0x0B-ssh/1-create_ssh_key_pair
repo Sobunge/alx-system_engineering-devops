@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Script to create an RSA key pair with specific requirements
+
+# Prompt user for passphrase
+read -s -p "Enter passphrase for the RSA key: " passphrase
+echo
+
+# Generate RSA key pair with specified requirements
+ssh-keygen -t rsa -b 4096 -N "$passphrase" -f ~/.ssh/school
