@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-# Installs and setup haproxy
+# Installs and sets up HAProxy on lb-01 server
 
+# Install required packages
 apt-get update
 apt-get install -y software-properties-common
 add-apt-repository -y ppa:vbernat/haproxy-2.6
@@ -40,8 +41,8 @@ frontend load_balancer
 
 backend web_servers
     balance roundrobin
-    server web-01 54.144.154.101:80 check
-    server web-02 52.3.246.209:80 check
+    server web-01 528395-web-01:80 check
+    server web-02 528395-web-02:80 check
 EOF
 
 # Add custom header to HAProxy configuration
