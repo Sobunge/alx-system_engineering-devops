@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 # Installs and setup haproxy
 
+# Install required packages
+apt-get update
 apt-get install -y software-properties-common
 add-apt-repository -y ppa:vbernat/haproxy-2.6
-apt-get -y update
-apt-get install -y haproxy=2.6.\*
+apt-get update
+apt-get install -y haproxy=2.6.*
 
 # Enable HAProxy service
 systemctl enable haproxy
@@ -15,12 +17,6 @@ global
     log /dev/log    local0
     log /dev/log    local1 notice
     chroot /var/lib/haproxy
-   # Configure HAProxy to add custom headers
-sed -i '/^frontend load_balancer/a \\thttp-request add-header X-Served-By %[hostname]' /etc/haproxy/haproxy.cfg stats socket /run/haproxy/admin.sock mode 660 level admin
-    stats timeout 30s
-    user haproxy
-    group haproxy
-    daemon
 
 defaults
     log     global
@@ -48,6 +44,9 @@ backend web_servers
     server web-01 54.144.154.101:80 check
     server web-02 52.3.246.209:80 check
 EOF
+
+# Add custom header to HAProxy configuration
+sed -i '/^frontend load_balancer/a \    http-request add-header X-Served-By %[hostname]' /etc/haproxy/haproxy.cfg
 
 # Restart HAProxy service
 systemctl restart haproxy
