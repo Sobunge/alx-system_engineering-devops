@@ -46,7 +46,7 @@ backend web_servers
 EOF
 
 # Add custom header to HAProxy configuration
-sed -i '/^frontend load_balancer/a \    http-request add-header X-Served-By 03' /etc/haproxy/haproxy.cfg
+sed -i '/^frontend load_balancer/a \    http-request add-header X-Served-By %[hostname]' /etc/haproxy/haproxy.cfg
 
 # Restart HAProxy service
 systemctl restart haproxy
