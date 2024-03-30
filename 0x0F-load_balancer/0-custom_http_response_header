@@ -1,15 +1,11 @@
 #!/usr/bin/env bash
-
 # Update and install Nginx
 apt-get -y update && apt-get -y install nginx
-
 # Create custom HTML files
 echo "Hello World!" > /var/www/html/index.html
 echo "Ceci n'est pas une page" > /usr/share/nginx/html/custom_404.html
-
 # Configure Nginx
 sed -i '/server_name _;/a \\trewrite ^\/redirect_me https:\/\/github.com\/Tolulope05 permanent;\n\n\terror_page 404 \/custom_404.html;\n\tlocation = \/custom_404.html {\n\t\troot \/usr\/share\/nginx\/html;\n\t\tinternal;\n\t}' /etc/nginx/sites-available/default
 sed -i '/include \/etc\/nginx\/sites-enabled\/\*;/a \\tadd_header X-Served-By "$HOSTNAME";' /etc/nginx/nginx.conf
-
 # Restart Nginx service
 service nginx restart
