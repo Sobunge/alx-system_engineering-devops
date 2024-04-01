@@ -44,15 +44,13 @@ frontend load_balancer
     bind *:80
     mode http
     default_backend web_servers
+    http-request add-header X-Served-By %[hostname]
 
 backend web_servers
     balance roundrobin
     server web-01 ${STUDENT_ID}-web-01:80 check
     server web-02 ${STUDENT_ID}-web-02:80 check
 EOF
-
-# Add custom header to HAProxy configuration
-sed -i "/^frontend load_balancer/a \    http-request add-header X-Served-By %[hostname]" /etc/haproxy/haproxy.cfg
 
 # Restart HAProxy service
 systemctl restart haproxy
