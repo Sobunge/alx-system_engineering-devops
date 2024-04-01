@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 # Installs and sets up HAProxy on lb-01 server
 
+# Get the hostname of the server
+HOSTNAME=$(hostname)
+
+# Extract the student ID from the hostname
+STUDENT_ID=$(echo "$HOSTNAME" | cut -d'-' -f1)
+
 # Install required packages
 apt-get update
 apt-get install -y software-properties-common
@@ -41,12 +47,12 @@ frontend load_balancer
 
 backend web_servers
     balance roundrobin
-    server web-01 528395-web-01:80 check
-    server web-02 528395-web-02:80 check
+    server web-01 ${STUDENT_ID}-web-01:80 check
+    server web-02 ${STUDENT_ID}-web-02:80 check
 EOF
 
 # Add custom header to HAProxy configuration
-sed -i '/^frontend load_balancer/a \    http-request add-header X-Served-By %[hostname]' /etc/haproxy/haproxy.cfg
+sed -i "/^frontend load_balancer/a \    http-request add-header X-Served-By %[hostname]" /etc/haproxy/haproxy.cfg
 
 # Restart HAProxy service
 systemctl restart haproxy
