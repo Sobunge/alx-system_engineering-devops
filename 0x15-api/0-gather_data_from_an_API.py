@@ -1,71 +1,47 @@
 #!/usr/bin/python3
 """
-Checks student output for returning TODO list progress from REST API
+Retrieves information about an employee's TODO list progress using a REST API.
 """
 
 import requests
 import sys
 
-USERS_URL = "https://jsonplaceholder.typicode.com/users"
-
-
-def get_employee_name(user_id):
+def fetch_todo_list_progress(employee_id):
     """
-    Fetches the name of the employee with the given ID.
-
-    Args:
-        user_id (int): The ID of the user.
-
-    Returns:
-        str: The name of the user if found, None otherwise.
+    Fetches and displays the TODO list progress for a given employee.
     """
+    base_url = "https://jsonplaceholder.typicode.com"
+    user_url = f"{base_url}/users/{employee_id}"
+    todo_url = f"{base_url}/todos?userId={employee_id}"
+
     try:
-        response = requests.get(USERS_URL)
-        response.raise_for_status()  # exception for non-200 codes
-        users_data = response.json()
+        # Fetch user information
+        user_response = requests.get(user_url)
+        user_data = user_response.json()
+        employee_name = user_data.get("name")
 
-        for user in users_data:
-            if user['id'] == user_id:
-                return user['name']
+        # Fetch TODO list
+        todo_response = requests.get(todo_url)
+        todo_data = todo_response.json()
 
-        print("User ID not found in API response.")
-        return None
+        # Calculate progress
+        total_tasks = len(todo_data)
+        done_tasks = sum(1 for task in todo_data if task["completed"])
 
-    except requests.exceptions.RequestException as e:
-        print(f"Error fetching user data: {e}")
-        return None
+        # Display progress
+        print(f"Employee {employee_name} is done with tasks ({done_tasks}/{total_tasks}):")
+        for task in todo_data:
+            if task["completed"]:
+                print(f"\t{task['title']}")
 
-
-def check_student_output(user_id, output_filename):
-    """
-    Checks if the student output contains the employee's name.
-
-    Args:
-        user_id (int): The ID of the user.
-        output_filename (str): The filename of the student's output.
-
-    Returns:
-        None
-    """
-    employee_name = get_employee_name(user_id)
-    if employee_name is None:
-        print("Employee name not found.")
-        return
-
-    with open(output_filename, 'r') as f:
-        first_line = f.readline().strip()
-
-    if employee_name in first_line:
-        print("Employee Name: OK")
-    else:
-        print("Employee Name: Incorrect")
-
-
-if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Usage: python3 script.py <employee_id> <student_output_file>")
+    except requests.RequestException as e:
+        print(f"Error fetching data: {e}")
         sys.exit(1)
 
-    user_id = int(sys.argv[1])
-    output_filename = sys.argv[2]
-    check_student_output(user_id, output_filename)
+if __name__ == "__main__":
+    if len(sys.argv) != 2 or not sys.argv[1].isdigit():
+        print("Usage: python3 script.py <employee_id>")
+        sys.exit(1)
+    
+    employee_id = int(sys.argv[1])
+    fetch_todo_list_progress(employee_id)
