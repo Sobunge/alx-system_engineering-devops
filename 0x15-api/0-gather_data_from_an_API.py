@@ -21,13 +21,13 @@ def get_employee_name(user_id):
     """
     try:
         response = requests.get(USERS_URL)
-        response.raise_for_status()  # Raise an exception for non-200 status codes
+        response.raise_for_status()  # exception for non-200 codes
         users_data = response.json()
 
         for user in users_data:
             if user['id'] == user_id:
                 return user['name']
-        
+
         print("User ID not found in API response.")
         return None
 
