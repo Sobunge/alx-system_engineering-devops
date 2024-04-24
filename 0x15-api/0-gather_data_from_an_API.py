@@ -1,10 +1,35 @@
 #!/usr/bin/python3
 
+"""
+This script retrieves information about an employee's TODO list progress
+from a REST API and displays it in a specific format.
+
+Usage:
+    python3 gather_data_from_an_API.py <employee_id>
+
+Arguments:
+    employee_id: An integer representing the ID of the employee whose
+                 TODO list progress needs to be retrieved.
+
+Requirements:
+    - The script must use the urllib or requests module.
+    - The script must display the employee's TODO list progress in the
+      specified format.
+"""
+
 import sys
 import requests
 
 
 def get_employee_todo_progress(employee_id):
+    """
+    Fetches information about the employee's TODO list progress from the
+    REST API and prints it in the specified format.
+
+    Args:
+        employee_id (int): The ID of the employee whose TODO list progress
+                           needs to be retrieved.
+    """
     base_url = 'https://jsonplaceholder.typicode.com'
     user_url = f'{base_url}/users/{employee_id}'
     todos_url = f'{base_url}/todos?userId={employee_id}'
