@@ -14,14 +14,20 @@ def number_of_subscribers(subreddit):
     }
     try:
         response = requests.get(url, headers=headers, allow_redirects=False)
+        print("Response Status Code:", response.status_code)  # Add this line for debugging
         if response.status_code == 302:  # Check for redirect status code
             print("Error: Subreddit does not exist or is invalid.")
             return 0
         response.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
         data = response.json()
+        print("Response Data:", data)  # Add this line for debugging
         subscribers = data["data"]["subscribers"]
         return subscribers
     except requests.RequestException as e:
         print("Error fetching data:", e)
         return 0
+
+# Test the function
+print(number_of_subscribers("programming"))
+
 
