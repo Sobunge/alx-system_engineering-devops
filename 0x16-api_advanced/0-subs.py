@@ -14,3 +14,5 @@ def number_of_subscribers(subreddit):
         return 0
     else:
         return response
+
+print(number_of_subscribers(response))
