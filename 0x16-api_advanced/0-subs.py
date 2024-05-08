@@ -9,16 +9,23 @@ import requests
 
 
 def number_of_subscribers(subreddit):
-    """
-    Function that queries the Reddit API
-    - If not a valid subreddit, return 0.
-    """
-    req = requests.get(
-        "https://www.reddit.com/r/{}/about.json".format(subreddit),
-        headers={"User-Agent": "Custom"},
-    )
-
-    if req.status_code == 200:
-        return req.json().get("data").get("subscribers")
-    else:
+    """Return the total number of subscribers on a given subreddit."""
+    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
+    headers = {
+        "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
+    }
+    try:
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()  # Raise an exception for 4xx or 5xx status codes
+        data = response.json()
+        subscribers = data["data"]["subscribers"]
+        print("Subscribers:", subscribers)  # Add this line for debugging
+        return subscribers
+    except requests.RequestException as e:
+        print("Error fetching data:", e)
         return 0
+    except (KeyError, json.JSONDecodeError) as e:
+        print("Error decoding JSON or extracting subscribers:", e)
+        print("Response text:", response.text)  # Add this line for debugging
+        return 0
+
