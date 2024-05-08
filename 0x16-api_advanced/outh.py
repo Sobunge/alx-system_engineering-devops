@@ -35,7 +35,7 @@ def get_oauth_token(client_id, client_secret, username, password):
 client_id = "-NyEHY07bVzToRWmjLxCzw"
 client_secret = "-C8XZI10GZBHEPx84reO75ZT3nVgTA"
 reddit_username = "sobunge"
-reddit_password = "merium@kema"
+reddit_password = "meriuum@kema"
 
 oauth_token = get_oauth_token(client_id, client_secret, reddit_username, reddit_password)
 if oauth_token:
