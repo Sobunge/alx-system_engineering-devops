@@ -11,7 +11,7 @@ def number_of_subscribers(subreddit):
         "Authorization": f"bearer {oauth_token}",
         "User-Agent": "Mozilla/5.0"
     }
-    response = requests.get(url, headers=headers, allow_redirects=False)
+    response = requests.get(url, headers=headers)
     if response.status_code == 404:
         return 0
     results = response.json().get("data")
