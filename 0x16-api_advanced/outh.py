@@ -19,10 +19,10 @@ def get_oauth_token(client_id, client_secret, username, password):
         return None
 
 # Replace these with your app's client ID, client secret, Reddit username, and password
-client_id = "<your_client_id>"
-client_secret = "<your_client_secret>"
-reddit_username = "<your_reddit_username>"
-reddit_password = "<your_reddit_password>"
+client_id = "sobunge"
+client_secret = "-C8XZI10GZBHEPx84reO75ZT3nVgTA"
+reddit_username = "sobunge"
+reddit_password = "merium@kema"
 
 oauth_token = get_oauth_token(client_id, client_secret, reddit_username, reddit_password)
 if oauth_token:
